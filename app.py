@@ -360,4 +360,114 @@ with col2:
             'user_input': user_input
         }
         
-        st.switch_page("pages/results.py")
+        st.session_state.page = 'results'
+        st.rerun()
+
+# Show results if on results page
+if st.session_state.get('page') == 'results' and 'prediction_result' in st.session_state:
+    result = st.session_state.prediction_result
+    prediction = result['prediction']
+    probabilities = result['probabilities']
+    insights = result['insights']
+    user_input = result['user_input']
+    
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.markdown("### 🎯 Prediction Results")
+    
+    churn_prob = probabilities[1]
+    
+    # Determine risk level
+    if churn_prob >= 0.65:
+        risk_level = "🔴 High Risk"
+        risk_class = "risk-high"
+        recommendation = "⚠️ Immediate action required. Offer retention incentive."
+    elif churn_prob >= 0.35:
+        risk_level = "🟡 Moderate Risk"
+        risk_class = "risk-low"
+        recommendation = "📋 Review engagement strategy. Consider proactive outreach."
+    else:
+        risk_level = "🟢 Low Risk"
+        risk_class = "risk-low"
+        recommendation = "✅ Customer is satisfied. Maintain current service level."
+    
+    # Display risk badge
+    st.markdown(f'<div class="result-badge {risk_class}">{risk_level}</div>', unsafe_allow_html=True)
+    
+    # Display probability metrics in columns
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown(f"""
+        <div class="metric-card">
+            <div style="font-size: 0.85rem; color: #667; margin-bottom: 0.5rem;">Churn Probability</div>
+            <div style="font-size: 2rem; font-weight: 700; color: #667eea;">{churn_prob:.1%}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown(f"""
+        <div class="metric-card">
+            <div style="font-size: 0.85rem; color: #667; margin-bottom: 0.5rem;">Retention Probability</div>
+            <div style="font-size: 2rem; font-weight: 700; color: #51cf66;">{(1-churn_prob):.1%}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown(f"""
+        <div class="metric-card">
+            <div style="font-size: 0.85rem; color: #667; margin-bottom: 0.5rem;">Prediction</div>
+            <div style="font-size: 1.8rem; font-weight: 700; color: {'#ff6b6b' if prediction == 1 else '#51cf66'};">
+                {'CHURN' if prediction == 1 else 'RETAIN'}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Key Insights
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.markdown("### 💡 Key Insights")
+    for insight in insights:
+        st.markdown(f'<div class="insight-item">{insight}</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Customer Profile Summary
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.markdown("### 👤 Customer Profile Summary")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("Tenure", f"{user_input['tenure']} months")
+    
+    with col2:
+        st.metric("Monthly Charges", f"${user_input['monthly_charges']:.2f}")
+    
+    with col3:
+        st.metric("Contract Type", user_input['contract'])
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.metric("Internet Service", user_input['internet_service'])
+    
+    with col2:
+        st.metric("Tech Support", user_input['tech_support'])
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Action Buttons
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        if st.button('← Back to Prediction'):
+            st.session_state.page = 'home'
+            st.rerun()
+    
+    with col2:
+        if st.button('🔄 New Prediction'):
+            st.session_state.clear()
+            st.rerun()
+    
+    st.markdown('</div>', unsafe_allow_html=True)
