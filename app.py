@@ -232,12 +232,9 @@ with col2:
         with st.spinner('🔮 Analyzing customer data...'):
             try:
                 input_data = preprocess_input(user_input)
-                # Transform data with column transformer
-                transformed_data = ct.transform(input_data)
-                # Get feature names from transformer
-                feature_names = ct.get_feature_names_out()
-                # Create dataframe with proper column names
-                input_data_transformed = pd.DataFrame(transformed_data, columns=feature_names)
+                # Transform data using set_output to get pandas dataframe with correct names
+                ct.set_output(transform="pandas")
+                input_data_transformed = ct.transform(input_data)
                 
                 # Make predictions
                 prediction = model.predict(input_data_transformed)[0]
