@@ -230,16 +230,28 @@ with col2:
     
     if user_input['submit']:
         with st.spinner('🔮 Analyzing customer data...'):
-            input_data = preprocess_input(user_input)
-            prediction = model.predict(input_data)[0]
-            probabilities = model.predict_proba(input_data)[0]
-            
-            # Store in session state
-            st.session_state.prediction_result = {
-                'prediction': prediction,
-                'probabilities': probabilities,
-                'user_input': user_input
-            }
-        
-        # Navigate to results page
-        st.switch_page("pages/results")
+            try:
+                input_data = preprocess_input(user_input)
+                # Transform data with column transformer
+                transformed_data = ct.transform(input_data)
+                # Get feature names from transformer
+                feature_names = ct.get_feature_names_out()
+                # Create dataframe with proper column names
+                input_data_transformed = pd.DataFrame(transformed_data, columns=feature_names)
+                
+                # Make predictions
+                prediction = model.predict(input_data_transformed)[0]
+                probabilities = model.predict_proba(input_data_transformed)[0]
+                
+                # Store in session state
+                st.session_state.prediction_result = {
+                    'prediction': prediction,
+                    'probabilities': probabilities,
+                    'user_input': user_input
+                }
+                
+                # Navigate to results page
+                st.switch_page("pages/results")
+            except Exception as e:
+                st.error(f"Error during prediction: {str(e)}")
+                st.info("Please check your input values and try again.")
