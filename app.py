@@ -2,6 +2,7 @@ import streamlit as st
 from pathlib import Path
 import joblib
 import pandas as pd
+import numpy as np
 from typing import Dict
 
 # ============================================================================
@@ -232,11 +233,14 @@ with col2:
         with st.spinner('🔮 Analyzing customer data...'):
             try:
                 input_data = preprocess_input(user_input)
-                # Transform data using set_output to get pandas dataframe with correct names
-                ct.set_output(transform="pandas")
+                # Transform data to numpy array (no column name validation needed)
                 input_data_transformed = ct.transform(input_data)
                 
-                # Make predictions
+                # If it's a sparse matrix, convert to dense array
+                if hasattr(input_data_transformed, 'toarray'):
+                    input_data_transformed = input_data_transformed.toarray()
+                
+                # Make predictions with numpy array directly
                 prediction = model.predict(input_data_transformed)[0]
                 probabilities = model.predict_proba(input_data_transformed)[0]
                 
@@ -249,6 +253,10 @@ with col2:
                 
                 # Navigate to results page
                 st.switch_page("pages/results")
+                
             except Exception as e:
-                st.error(f"Error during prediction: {str(e)}")
-                st.info("Please check your input values and try again.")
+                st.error(f"❌ Error during prediction: {str(e)}")
+                st.info("💡 Tip: Please check your input values and try again.")
+                import traceback
+                with st.expander("Debug Info"):
+                    st.code(traceback.format_exc())
