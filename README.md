@@ -255,9 +255,8 @@ Feel free to:
 - Optimize hyperparameters
 - Enhance the Streamlit UI
 
-Live demo
-https://samratm2112-cmyk-customer-churn-intelligence-app-berreu.streamlit.app/
-
+## Live demo
+https://samratm2112-cmyk-customer-churn-intelligence-app-w1yjzb.streamlit.app/
 
 ## 📝 License
 
