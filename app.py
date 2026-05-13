@@ -252,7 +252,7 @@ with col2:
                 }
                 
                 # Navigate to results page
-                st.switch_page("results")
+                st.switch_page("pages/results.py")
                 
             except Exception as e:
                 st.error(f"❌ Error during prediction: {str(e)}")

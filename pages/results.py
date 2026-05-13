@@ -150,7 +150,7 @@ model, ct = load_model_artifacts()
 if 'prediction_result' not in st.session_state:
     st.warning('⚠️ No prediction results found. Please go back and make a prediction.')
     if st.button('← Go Back'):
-        st.switch_page("app")
+        st.switch_page("app.py")
     st.stop()
 
 result = st.session_state.prediction_result
@@ -342,11 +342,11 @@ col1, col2 = st.columns(2)
 with col1:
     if st.button('← Back to Prediction'):
         st.session_state.clear()
-        st.switch_page("app")
+        st.switch_page("app.py")
 
 with col2:
     if st.button('🔄 New Prediction'):
         st.session_state.clear()
-        st.switch_page("app")
+        st.switch_page("app.py")
 
 st.markdown('</div>', unsafe_allow_html=True)
