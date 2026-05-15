@@ -256,7 +256,7 @@ Feel free to:
 - Enhance the Streamlit UI
 
 ## Live demo
-https://samratm2112-cmyk-customer-churn-intelligence-app-w1yjzb.streamlit.app/
+https://customer-churn-intelligence-nf7h5oxk4ybiytgufqdyr5.streamlit.app/
 
 ## 📝 License
 
