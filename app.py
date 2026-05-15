@@ -147,7 +147,7 @@ with col_out:
                'bar':{'color':gc,'thickness':.22},'bgcolor':'#f1f5f9','borderwidth':0,
                'steps':[{'range':[0,stability],'color':gc}]}))
     fig.update_layout(height=160,margin=dict(l=10,r=10,t=0,b=0),paper_bgcolor='rgba(0,0,0,0)')
-    st.plotly_chart(fig, use_container_width=True, config={'displayModeBar':False})
+    st.plotly_chart(fig, use_container_width=True, config={'displayModeBar':False,'scrollZoom':False,'staticPlot':True})
 
     if stability>=75:
         cls,icon,lbl="risk-low","✓","Low Risk Customer"
@@ -189,7 +189,7 @@ with ch1:
         ft.update_layout(height=230,margin=dict(l=0,r=0,t=5,b=0),
             paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)',
             xaxis=dict(showgrid=False),yaxis=dict(showgrid=True,gridcolor='#f1f5f9',tickformat='.0%',range=[0,.3]))
-        st.plotly_chart(ft, use_container_width=True, config={'displayModeBar':False})
+        st.plotly_chart(ft, use_container_width=True, config={'displayModeBar':False,'scrollZoom':False,'staticPlot':True})
 
 with ch2:
     with st.container():
@@ -203,7 +203,7 @@ with ch2:
             showlegend=True,legend=dict(orientation="h",y=-.15,x=.5,xanchor="center",font=dict(size=10)))
         fd.add_annotation(text="42%<br><span style='font-size:10px'>CORE</span>",x=.5,y=.5,
             showarrow=False,font=dict(size=22,color='#0f172a',family='Space Grotesk'))
-        st.plotly_chart(fd, use_container_width=True, config={'displayModeBar':False})
+        st.plotly_chart(fd, use_container_width=True, config={'displayModeBar':False,'scrollZoom':False,'staticPlot':True})
 
 ch3, ch4 = st.columns(2)
 
@@ -220,7 +220,7 @@ with ch3:
             paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)',
             xaxis=dict(showgrid=False,showticklabels=False),
             yaxis=dict(showgrid=False,tickfont=dict(size=11)))
-        st.plotly_chart(fb, use_container_width=True, config={'displayModeBar':False})
+        st.plotly_chart(fb, use_container_width=True, config={'displayModeBar':False,'scrollZoom':False,'staticPlot':True})
 
 with ch4:
     with st.container():
@@ -233,7 +233,7 @@ with ch4:
         fm.update_layout(height=180,margin=dict(l=0,r=0,t=0,b=0),
             paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)',
             xaxis=dict(showgrid=False),yaxis=dict(showgrid=False,range=[90,95],showticklabels=False))
-        st.plotly_chart(fm, use_container_width=True, config={'displayModeBar':False})
+        st.plotly_chart(fm, use_container_width=True, config={'displayModeBar':False,'scrollZoom':False,'staticPlot':True})
         rc1, rc2 = st.columns(2)
         with rc1: st.metric("Avg Retention", "92.4%")
         with rc2: st.metric("MoM Change", "-1.2%", delta="-1.2%", delta_color="inverse")
@@ -257,7 +257,7 @@ if p:
         fr.update_layout(height=250,margin=dict(l=0,r=0,t=10,b=0),
             paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)',
             yaxis=dict(tickformat='.0%',range=[0,1],gridcolor='#f1f5f9'))
-        st.plotly_chart(fr, use_container_width=True, config={'displayModeBar':False})
+        st.plotly_chart(fr, use_container_width=True, config={'displayModeBar':False,'scrollZoom':False,'staticPlot':True})
 
     with ac2:
         st.markdown("**💡 Key Insights**")
